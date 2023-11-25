@@ -90,30 +90,35 @@ const app = new Elysia()
   })
   .group('/title/:id', (app) => {
     return app
-      .get('/', async ({ params, db }) => {
+      .guard({
+        params: t.Object({
+          id: t.Numeric(),
+        }),
+      })
+      .get('/', async ({ params: { id }, db }) => {
         return db.movie.findUnique({
           where: {
-            id: parseInt(params.id, 10),
+            id,
           },
         });
       })
-      .get('/episodes', async ({ params, db }) => {
+      .get('/episodes', async ({ params: { id }, db }) => {
         return db.movie.findMany({
           where: {
             episodes: {
               some: {
-                movieId: parseInt(params.id, 10),
+                movieId: id,
               },
             },
           },
         });
       })
-      .get('/cast', async ({ params, db }) => {
+      .get('/cast', async ({ params: { id }, db }) => {
         return db.person.findMany({
           where: {
             movies: {
               some: {
-                id: parseInt(params.id, 10),
+                id,
               },
             },
           },
@@ -122,14 +127,14 @@ const app = new Elysia()
       .get('/reviews', async ({ params, db }) => {
         return db.review.findMany({
           where: {
-            movieId: parseInt(params.id, 10),
+            movieId: params.id,
           },
         });
       })
-      .get('/awards', async ({ params, db }) => {
+      .get('/awards', async ({ params: { id }, db }) => {
         return db.award.findMany({
           where: {
-            movieId: parseInt(params.id, 10),
+            movieId: id,
           },
         });
       });

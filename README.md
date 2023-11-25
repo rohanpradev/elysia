@@ -1,15 +1,23 @@
 # Elysia with Bun runtime
 
 ## Getting Started
-To get started with this template, simply paste this command into your terminal:
-```bash
-bun create elysia ./elysia-example
+
+1. Create a .env file with
+
+```
+DATABASE_URL="postgres//<your connection string>"
 ```
 
 ## Development
+
 To start the development server run:
+
 ```bash
 bun run dev
 ```
 
 Open http://localhost:3000/ with your browser to see the result.
+
+## Documentation
+
+To access [swagger documentation](http://localhost:3000/v1/swagger)
